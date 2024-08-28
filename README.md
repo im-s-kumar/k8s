@@ -79,13 +79,14 @@ minikube dashboard
 # Delete the deployments
 kubectl delete deployment my-nignx
 ```
+
 Now `nginx` is running on pod's port 80 but we can't directly access it since it is an isolated env. In order to access or port binding we need to create `services`
 ```bash
 # Create a service using kubectl command
 
 kubectl expose deployment my-nginx --port=80 --type=LoadBalancer
+# Now we can check the services using below command. Here port 80 is application port running inside the container.
 
-# Now we can check the services using below command
 kubectl get services
 
 # Now, we have created the service the but we need to tell it to minikube using below command
@@ -93,4 +94,30 @@ kubectl get services
 minikube service my-nginx
 
 # Now we can access it on localhost
+```
+
+Getting the logs of a particular Pod
+```bash
+kubectl get pods # Get the name of the pod
+
+kubectl logs <pod-name> # we can also -f flag to stream the log
+
+# Getting more information of pods
+kubectl describe pods
+
+```
+
+k8s rollouts.
+Updating the deployments.
+
+```bash
+kubectl get deployments
+
+kubectl get pods
+
+kubectl set image deployment <deploymentname> <containername>=<new docker image name>
+# In above command get the container name from minikube dashboard. Here we are replacing the exiting docker image with different version. 
+
+kubectl get pods
+# You can notice that it is creating a new container for new version of image. It will not remove the previous deployment/container unless newly created deployment is up and running.
 ```
